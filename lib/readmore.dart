@@ -199,7 +199,13 @@ class ReadMoreTextState extends State<ReadMoreText> {
         int endIndex;
 
         if (linkSize.width < maxWidth) {
-          final readMoreSize = linkSize.width + delimiterSize.width;
+          double readMoreSize = linkSize.width + delimiterSize.width;
+
+          // Check if readmore link at the new line and should not affect the text
+          if (widget.delimiter.contains(RegExp(r'\n|\u2028'))) {
+            readMoreSize = 0; 
+          }
+          
           final pos = textPainter.getPositionForOffset(Offset(
             textDirection == TextDirection.rtl
                 ? readMoreSize
